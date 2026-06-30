@@ -2,16 +2,14 @@ import { useSearchParams } from "react-router-dom";
 import { useAppContext } from "../../../context/context";
 
 export default function PriceFilter() {
-  const { maxPrice, setMaxPrice, bedrooms } = useAppContext();
+  const { maxPrice, setMaxPrice } = useAppContext();
   const [searchParams, setSearchParams] = useSearchParams();
 
   function changePrice(maxValue) {
-    setMaxPrice(Number(maxValue));
-
-    setSearchParams({
-      bedrooms: bedrooms,
-      Price: maxValue,
-    });
+    setMaxPrice(maxValue);
+    const params = new URLSearchParams(searchParams);
+    params.set("price", maxValue);
+    setSearchParams(params);
   }
 
   return (
@@ -24,7 +22,7 @@ export default function PriceFilter() {
         max={6000}
         className="w-full"
         value={maxPrice}
-        onChange={(e) => changePrice(e.currentTarget.value, maxPrice)}
+        onChange={(e) => changePrice(e.target.value)}
       />
 
       <div className="flex justify-between text-sm mt-2">

@@ -6,17 +6,22 @@ export const AppContext = createContext();
 export function AppProvider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsloading] = useState(false);
-  const [maxPrice, setMaxPrice] = useState(1500);
+  const [maxPrice, setMaxPrice] = useState(5000);
+
   const [searchParams] = useSearchParams();
   const bedrooms = searchParams.get("bedrooms") || "";
   const minPriceValue = 500;
-  const maxPriceValue = searchParams.get("Price") || 6000;
+  const maxPriceValue = searchParams.get("Price");
+  const pageNumber = searchParams.get("page") || 1;
+  const limitNumber = searchParams.get("limit") || 12;
+  const keyword = searchParams.get("keyword") || "";
+
   useEffect(() => {
     async function fetchData() {
       setIsloading(true);
       try {
         const res = await fetch(
-          `https://backend-dev.yozya.com/api/v1/mobile/real-estates?bedrooms=${bedrooms}&price[]=${minPriceValue}&price[]=${maxPriceValue}`,
+          `https://backend-dev.yozya.com/api/v1/mobile/real-estates?bedrooms=${bedrooms}&price[]=${minPriceValue}&price[]=${maxPriceValue}&page=${pageNumber}&limit=${limitNumber}&keyword=${keyword}`,
           {
             method: "GET",
             headers: {
@@ -42,7 +47,7 @@ export function AppProvider({ children }) {
       }
     }
     fetchData();
-  }, [bedrooms, maxPriceValue]);
+  }, [bedrooms, maxPriceValue, pageNumber, keyword, limitNumber]);
 
   return (
     <AppContext.Provider
@@ -53,6 +58,9 @@ export function AppProvider({ children }) {
         maxPrice,
         bedrooms,
         maxPriceValue,
+        limitNumber,
+        pageNumber,
+        keyword,
       }}
     >
       {children}

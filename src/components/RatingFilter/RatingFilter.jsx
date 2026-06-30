@@ -1,4 +1,4 @@
-const ratings = ["0+", "1+", "2+", "3+", "4+"];
+const ratings = ["0", "1", "2", "3", "4"];
 
 export default function RatingFilter() {
   return (
@@ -11,7 +11,7 @@ export default function RatingFilter() {
             key={rating}
             className="border rounded-lg px-3 py-1 hover:bg-cyan-500 hover:text-white"
           >
-            {rating}
+            {rating}+
           </button>
         ))}
       </div>
