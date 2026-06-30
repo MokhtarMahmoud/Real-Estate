@@ -7,6 +7,13 @@ export default function PropertyCard() {
   console.log(data);
   return (
     <>
+      {data.length === 0 && (
+        <div className="w-full">
+          <p className="font-semibold text-xl rounded-2xl ring ring-red-600 px-5 py-2 flex justify-center items-center w-full mt-16 ml-16">
+            could not fetch data right now
+          </p>
+        </div>
+      )}
       {data?.map((item) => (
         <div
           key={item.id}

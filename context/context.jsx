@@ -26,8 +26,7 @@ export function AppProvider({ children }) {
             method: "GET",
             headers: {
               Accept: "application/json",
-              "x-api-key":
-                "base64:NnQp8jV6bp5tErWgwYoKjSY0YODOO4maVCrkqWCFgT8=",
+              "x-api-key": import.meta.env.VITE_API_KEY,
               "Accept-Language": "en",
               platform: "web",
               "app-version": "1.1",
