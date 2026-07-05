@@ -16,24 +16,43 @@ export function AppProvider({ children }) {
   const limitNumber = searchParams.get("limit") || 12;
   const keyword = searchParams.get("keyword") || "";
 
+
+  const buildQueryString = (params) => {
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      searchParams.append(key, value);
+    }
+  });
+
+  return searchParams.toString(); 
+};
+
   useEffect(() => {
+    const queryParams = {
+      page: pageNumber,
+      limit: limitNumber,
+      bedrooms: bedrooms,
+      keyword: keyword,
+      maxPrice: maxPriceValue
+    };
+    const queryString = buildQueryString(queryParams);
     async function fetchData() {
       setIsloading(true);
       try {
-        const apikey = import.meta.env.VITE_API_KEY;
+        const apikey = "base64:NnQp8jV6bp5tErWgwYoKjSY0YODOO4maVCrkqWCFgT8=";
+
         const res = await fetch(
-          `https://backend-dev.yozya.com/api/v1/mobile/real-estates?bedrooms=${bedrooms}&price[]=${minPriceValue}&price[]=${maxPriceValue}&page=${pageNumber}&limit=${limitNumber}&keyword=${keyword}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              "x-api-key": apikey,
-              "Accept-Language": "en",
-              platform: "web",
-              "app-version": "1.1",
-              "X-Currency": "EGP",
-            },
+          `https://backend-dev.yozya.com/api/v1/mobile/real-estates?${queryString}`, {
+          method: "GET",
+          headers: {
+            "Accept": "application/json",
+            "Accept-Language": "en",
+            "x-api-key": apikey,
+            "X-Currency": "EGP",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36"
           },
+        },
         );
         if (!res.ok) {
           throw new Error("Could not fetch data");
