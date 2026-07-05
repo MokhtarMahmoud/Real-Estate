@@ -20,13 +20,14 @@ export function AppProvider({ children }) {
     async function fetchData() {
       setIsloading(true);
       try {
+        const apikey = import.meta.env.VITE_API_KEY;
         const res = await fetch(
           `https://backend-dev.yozya.com/api/v1/mobile/real-estates?bedrooms=${bedrooms}&price[]=${minPriceValue}&price[]=${maxPriceValue}&page=${pageNumber}&limit=${limitNumber}&keyword=${keyword}`,
           {
             method: "GET",
             headers: {
               Accept: "application/json",
-              "x-api-key": import.meta.env.VITE_API_KEY,
+              "x-api-key": apikey,
               "Accept-Language": "en",
               platform: "web",
               "app-version": "1.1",
