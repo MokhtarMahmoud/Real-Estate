@@ -4,6 +4,7 @@ import SearchBar from "../components/SearchBar/SearchBar";
 import PropertyGrid from "../components/PropertyGrid/PropertyGrid";
 import { useAppContext } from "../../context/context";
 import { Loader } from "lucide-react";
+import Pagination from "../components/pagination/pagination";
 
 export default function Home() {
   const { isLoading } = useAppContext();
@@ -26,6 +27,7 @@ export default function Home() {
             ) : (
               <PropertyGrid />
             )}
+            <Pagination />
           </div>
         </div>
       </div>
